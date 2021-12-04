@@ -5,33 +5,45 @@ from itertools import combinations_with_replacement, permutations, combinations
 import fractions
 
 store = []
+infor = "Shannon-Fano code\nplz retype if you type something wrong. " \
+        "this function will not assume any errors"
+q1 = "1: encode/decode message/average length of the code"
+q2 = "2: the length of encode codeword "
+q3 = "3: average codeword length per symbol"
+q4 = "4: the probability of the S"
+q5 = "5: the length for extension S with lots of prob."
+end = "q: exit the Shannon-Fano"
+questions = [infor, q1, q2, q3, q4, q5, end]
 
+def printQuestions():
+	print("*"*80)
+	for i in questions:
+		print(i)
+	
 
 def cal():
-	print("Shannon-Fano code")
-	print("plz retype if you type something wrong. "
-	      "this function will not assume any errors")
-	print("1: encode/decode message/average length of the code")
-	print("2: the length of encode codeword ")
-	print("3: average codeword length per symbol")
-	print("4: the probability of the S")
-	print("5: the length for extension S with lots of prob.")
-	t = int(input("plz input the question number:"))
-	if t == 1 or t == 3 or t == 4 or t == 5:
-		N = int(input("number input: "))
-		if t == 1:
-			t1(N)
-		elif t == 3:
-			t3(N)
-		elif t == 4 or t == 5:
-			t4(N, t)
-	elif t == 2:
-		p = float(input("P(s) = "))
-		r = int(input("r-radix: "))
-		t2(p, r)
+	printQuestions()
+	t = input("plz input the question number:")
+	if t == "q" or t == "" or t is None:
+		print("exit the Shannon-Fano")
 	else:
-		print("the number is incorrect, plz retype")
-		cal()
+		t = int(t)
+		single = [1, 3, 4, 5]
+		if t in single:
+			N = int(input("number input: "))
+			if t == 1:
+				t1(N)
+			elif t == 3:
+				t3(N)
+			elif t == 4 or t == 5:
+				t4(N, t)
+		elif t == 2:
+			p = float(input("P(s) = "))
+			r = int(input("r-radix: "))
+			t2(p, r)
+		else:
+			print("the number is incorrect, plz retype")
+			cal()
 
 
 def t1(N):
