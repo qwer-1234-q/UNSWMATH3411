@@ -7,11 +7,13 @@ Year: 2021
 
 Term: Term 3
 
-More information will upload later.
+More coding will upload later.
+
+Some files may still have some errors. Fixed later.
 
 ##Description
 ******************************
-Questions.py can access mostly py files and does not need to click others.
+Questions.py can access mostly py files. You do not need to click others.
 
 ####Exam:
 * Questions.py

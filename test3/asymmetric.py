@@ -1,12 +1,12 @@
 import humman
 
-# source = []
-# output = []
 
 def cal():
     print("asymmetric channel")
     print("plz retype if you type something wrong. "
                 "this function will not assume any errors")
+    print("Only for A is unknown or B is unknown, could not both of A and B "
+          "are unknown")
     s = "*" * 80
     print(s)
     print("plz enter one by one")
@@ -40,14 +40,16 @@ def cal():
           f'= H(B) + H(A|B) = {round(HB + HAB, 3)}')
     
     
-
 def addValue(N, s, k, t):
     empty = []
     l = []
     for n in range(N):
         a = input(f"P({t}{n + 1}{k}) = ")
         if a is not None and a != "":
-            l.append(float(a))
+            if a.find("/") != 0:
+                x, y = a.split("/")
+                a = int(x) / int(y)
+            l.append(round(float(a), 5))
         else:
             empty.append(n)
             l.append(0.0)
@@ -84,6 +86,7 @@ def fixValue(source, output, matrix, N, M):
     if sE and mE == False:
         source = fixRow(source, matrix, output, M)
 
+        
     sE, oE, mE = checkAllValue(source, output, matrix)
     if sE or oE or mE:
         return fixValue(source, output, matrix, N, M)
@@ -113,7 +116,7 @@ def checkAllValue(source, output, matrix):
 
 def checkEmpty(l):
     for i in l:
-        if i <= 0.0 or i == None or i == "":
+        if i <= 0.0 or i is None or i == "":
             return True
     return False
 
