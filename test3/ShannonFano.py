@@ -1,7 +1,7 @@
 import math
 import encode
 import humman
-from itertools import combinations_with_replacement, permutations, combinations
+from itertools import combinations_with_replacement, combinations
 import fractions
 
 store = []

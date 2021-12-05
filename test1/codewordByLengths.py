@@ -11,7 +11,7 @@ def cal():
 	if radix == 2:
 		m = encode.matrix(N, codeword)
 	else:
-		m =encode.matrix_Shannon(N, codeword, radix)
+		m = encode.matrix_Shannon(N, codeword, radix)
 
 
 
