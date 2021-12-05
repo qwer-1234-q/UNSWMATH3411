@@ -1,7 +1,7 @@
 from test1 import ISBN, LZ78, codewordByLengths
 from test3 import asymmetric, baseA, fermat, gcd, Markov, \
 	prime, ShannonFano, humman
-from Chapter67 import arithmeticMore, Vigenere
+from Chapter67 import arithmeticMore, Vigenere, unicity
 
 end = "q: exit the question"
 q0 = "0: arithmetic"
@@ -17,7 +17,9 @@ q9 = "9: is prime or not"
 q10 = "10: LZ78 encode/decode message"
 q11 = "11: I-code with codeword lengths"
 q12 = "12: Vigenere [eg, index of coincidence]"
-questions = [q0, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, end]
+q13 = "13: unicity distance"
+questions = [q0, q1, q2, q3, q4, q5, q6, q7, q8, q9,
+             q10, q11, q12, q13, end]
 
 
 def askQue():
@@ -78,6 +80,8 @@ def question10_19(t):
 		codewordByLengths.cal()
 	elif t == 12:
 		Vigenere.cal()
+	elif t == 13:
+		unicity.cal()
 
 
 if __name__ == "__main__":
