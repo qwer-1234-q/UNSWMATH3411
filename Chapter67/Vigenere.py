@@ -1,14 +1,17 @@
 import math
+import string
 
 end = "q: exit the Vigenere session"
 q0r = "If you want to enter the messages by txt (enter 0), you need to " \
-     "replace the 'file' address in the readFile() function and add the " \
-     "information into vigenereScript.txt"
+      "replace the 'file' address in the readFile() function and add the " \
+      "information into vigenereScript.txt"
 q0 = "0: enter the information by script"
 q1 = "1: Calculate the index of coincidence Ic of the message"
 q2 = "2: Calculate the keyword length r (ignoring spaces and punctuation)"
-
-questionList = [q0r, q0, q1, q2, end]
+qv = "Polyalphabetic substitution ciphers\n    key || plaintext || ciphertext"
+q3 = "3: Collect the ciphertext"
+q4 = "4: Collect the plaintext"
+questionList = [q0r, q0, q1, q2, qv, q3, q4, end]
 
 
 def readFile():
@@ -80,6 +83,20 @@ def cal():
 				index_Coincidence(message, length, N, M, letter_position, 0)
 			elif t == 2:
 				index_Coincidence(message, length, N, M, letter_position, 2)
+			elif t == 3:
+				key = [i for i in input("Key: ")]
+				use_plain = int(input("Encipher the message using ciphertext? "
+				                      "yes[1] || no[0]"))
+				cipher = encrpy_decrypt_message(message, key, use_plain)
+				print(f"ciphertex: {plain}")
+				re_encrpy_decrypt(message, key, cipher)
+			elif t == 4:
+				key = [i for i in input("Key: ")]
+				use_plain = int(input("Encipher the message using plaintext? "
+				                      "yes[1] || no[0]"))
+				plain = encrpy_decrypt_message(message, key, use_plain)
+				print(f"plaintext: {plain}")
+				re_encrpy_decrypt(message, key, plain)
 		except ValueError:
 			print("ValueError: exit the Vigenere")
 
@@ -178,6 +195,55 @@ def enter_Position(n, m):
 			pos = enter_Position(n, m)
 	
 	return pos
+
+
+def re_encrpy_decrypt(message, key, plain_cipher):
+	t1 = "plaintext"
+	t2 = "ciphertext"
+	dectype = [t1, t2]
+	plain_cipher = [i for i in plain_cipher]
+	try:
+		if int(input("change key[0] || keep [1]")) == 0:
+			key = [i for i in input("Key: ")]
+		use_plain = int(
+			input("Encipher the message using plaintext/ciphertext? "
+			      "yes[1] || no[0]"))
+		type = int(input("plaintext[0] || ciphertext[1]"))
+		askQue = int(input(f"change [dectype[type]] to decode/encode [0] "
+		                   f"|| use previous {dectype} to decode/encode [1] "
+		                   f"|| use previous [message] [2]"))
+		decode_message = message
+		if askQue == 0:
+			decode_message = [i for i in input("Enter text: ")]
+		elif askQue == 1:
+			decode_message = plain_cipher
+		plain_cipher = encrpy_decrypt_message(decode_message, key, use_plain)
+		print(f"{dectype[type]}: {plain_cipher}")
+		if int(input("continue [0] || exit [1]")) == 0:
+			re_encrpy_decrypt(decode_message, key, plain_cipher)
+	except Exception:
+		print("exit the vigenere function")
+
+
+def encrpy_decrypt_message(message, key, use_plaintext):
+	if use_plaintext:
+		i = 0
+		while len(key) != len(message):
+			if message[i] != " ":
+				key.append(message[i])
+			i += 1
+	cipher = ''
+	non_alpha_count = 0
+	for i in range(len(message)):
+		letter = message[i]
+		if letter.isalpha():
+			letter.upper()
+			offset = ord(key[(i - non_alpha_count) % len(key)]) - ord('A')
+			cipher += chr((ord(letter) - ord('A') + offset) % 26 + ord('A'))
+		else:
+			cipher += letter
+			non_alpha_count += 1
+	return cipher
 
 
 if __name__ == "__main__":
