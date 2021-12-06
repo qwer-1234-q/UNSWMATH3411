@@ -4,7 +4,7 @@ from test3 import asymmetric, baseA, fermat, gcd, Markov, \
 from Chapter67 import arithmeticMore, Vigenere, unicity
 
 end = "q: exit the question"
-q0 = "0: arithmetic"
+q0 = "0: arithmetic [eg. ab*/s1s2stop/encode/decode]"
 q1 = "1: Shannon-Fano"
 q2 = "2: humman "
 q3 = "3: gcd/Euler theorem/Unit/GF"
@@ -16,7 +16,7 @@ q8 = "8: 2-symbol Markov source"
 q9 = "9: is prime or not"
 q10 = "10: LZ78 encode/decode message"
 q11 = "11: I-code with codeword lengths"
-q12 = "12: Vigenere [eg, index of coincidence]"
+q12 = "12: Vigenere [eg, index of coincidence, key/ciphertext/plaintext]"
 q13 = "13: unicity distance"
 questions = [q0, q1, q2, q3, q4, q5, q6, q7, q8, q9,
              q10, q11, q12, q13, end]
