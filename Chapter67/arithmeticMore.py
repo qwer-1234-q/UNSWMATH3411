@@ -1,77 +1,88 @@
 
+en_de = ["encode message (ab*/s1s2*) (only use s1s2*) ",
+         "decode message (num) "]
+
+
 def cal():
-	N = int(input("Number of input (including stop): "))
-	store = []
-	for n in range(N):
-		if n + 1 == N:
-			a = float(input(f"P(*/stop): "))
-		else:
-			a = float(input(f"P(S{n+1}): "))
-		store.append(a)
-	encode = (input("encode message (ab*): "))
-	decode = (input("decode message (num): "))
-	end = 1 - store[2]
-	if len(encode) > 0:
-		en(encode, end, store, N)
-	else:
-		print(f"end is {end}")
-		print(f"decode {decode}")
-		print("decode message is:")
-		de(float(decode), end, store, N)
-
-
-def en(encode, end, store, N):
-	e = [i for i in encode]
-	print(e)
-	s = 0
-	v = 0
-	time = 0
-	for n in e:
-		if n != "s":
-			ind = store.index(int(n))
-			if ind + 1 != N:
-				if ind != 0:
-					v = round(v * int(store[ind]), 5)
-					print(f"S{ind + 1}, s{s}, v{v}")
-				else:
-					s = round(s + int(store[ind]) * v, 5)
-					v = round(v * int(store[ind - 1]), 5)
-					print(f"S{ind + 1}, s{s}, v{v}")
+	print("Here is arithmetic coding.")
+	try:
+		N = int(input("Number of input (including stop): "))
+		store = []
+		for n in range(N):
+			if n + 1 == N:
+				a = float(input(f"P(*/stop): "))
 			else:
+				a = float(input(f"P(S{n+1}): "))
+			store.append(a)
+		t = int(input(f"{en_de[0]}[0] || {en_de[1]}[1]:"))
+		encode_decode = input(f"{en_de[t]}: ")
+		if t == 0:
+			encode_message(encode_decode, store, N)
+		else:
+			print("decode message is:")
+			decode_message(float(encode_decode), store, N)
+	except ValueError and Exception:
+		if input("Enter [q] exit, otherwise enter all again") != 'q':
+			cal()
+
+
+def encode_message(encode, store, N):
+	end = 1 - store[N - 1]
+	en = [i for i in encode]
+	s = 0
+	v = 1
+	for i in range(len(en)):
+		if en[i] not in ["s", "S"]:
+			if en[i] == "*":
 				s = round(s + end * v, 5)
-				v = round(v * int(store[2]), 5)
-				print(f"*, s{s}, v{v}")
-			time += 1
+				v = round(v * store[N - 1], 5)
+				print(f"*, start: {s}, width {v}")
+			else:
+				if int(en[i]) - 2 < 0:
+					ind = 0
+					inv = store[int(en[i]) - 1]
+				else:
+					ind = store[int(en[i]) - 2]
+					inv = store[int(en[i]) - 1]
+				if int(en[i]) - 1 == 0:
+					v = round(v * inv, 5)
+					print(f"s{en[i]}, start: {s}, width {v}")
+				else:
+					s = round(s + ind * v, 5)
+					v = round(v * inv, 5)
+					print(f"s{en[i]}, start: {s}, width {v}")
 	print(f'the interval is [{s}, {s+v})')
 
 
-def position(decode, N):
-	pos = []
-	for n in range(N):
-		p = 0
-		for m in range(N):
-			if n != m and decode[n] < decode[m]:
-				p += 1
-		pos[p] = n
-	return pos
+def decode_interval(store):
+	interval = []
+	i = 0.0
+	for s in store:
+		interval.append(i)
+		i += s
+	interval.append(i)
+	print(interval)
+	return interval
 
 
-def de(decode, end, store, N):
-	pos = position(store, N)
-	find = N
-	while find > 0:
-		if decode >= store[pos[N]]:
-			decode = (decode - store[0]) / store[1]
-			print(f"s{find}")
-			find -= 1
-		elif decode >= 0:
-			decode = decode / store[0]
-			print(f"s{find}")
-			find -= 1
-		if decode < end:
-			de(decode, end, store, N)
-		else:
-			print("*")
+def decode_message(decode, store, N):
+	interval = decode_interval(store)
+	decode = float(decode)
+	message = []
+	print(f"end is ({interval[-2]}, {interval[-1]}) decode {decode}")
+	while interval[-2] >= decode:
+		for st in range(len(interval) - 1, -1, -1):
+			if interval[-2] <= decode <= interval[-1]:
+				break
+			if 0 <= st < N and decode >= interval[st]:
+				decode = float((decode - interval[st]) / store[st])
+				print(f"s{st + 1}, decode {round(decode, 3)}")
+				message.append(st + 1)
+	print("stop")
+	print("summary for decode")
+	for m in message:
+		print(f"s{m}", end="")
+	print("*")
 
 
 if __name__ == "__main__":

@@ -1,3 +1,6 @@
+"""
+Only for a, b, * three message.
+"""
 store = []
 
 

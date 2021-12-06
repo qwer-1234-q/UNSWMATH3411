@@ -12,7 +12,7 @@ qv = "Polyalphabetic substitution ciphers\n    key || plaintext || ciphertext"
 q3 = "3: Collect the ciphertext"
 q4 = "4: Collect the plaintext"
 questionList = [q0r, q0, q1, q2, qv, q3, q4, end]
-
+detext = ["ciphertext", "plaintext"]
 
 def readFile():
 	"""
@@ -71,32 +71,25 @@ def cal():
 			if t == 0:
 				message, plain, letter_position = readFile()
 				message, length = manage_message(message)
-				N = len(letter_position)
-				M = len(plain)
+				letter_position, N = manage_message(letter_position)
+				plain, M = manage_message(plain)
 				printQuestions(True)
 				t = input("plz input the question number: ")
 				t = int(t)
 			else:
 				message, length = collect_Message()
 				N, M, letter_position, plain = letter_group()
-			if t == 1:
-				index_Coincidence(message, length, N, M, letter_position, 0)
-			elif t == 2:
-				index_Coincidence(message, length, N, M, letter_position, 2)
-			elif t == 3:
+			if 1 <= t <= 2:
+				index_Coincidence(message, length, N, M, letter_position, t)
+			elif 3 <= t <= 4:
 				key = [i for i in input("Key: ")]
-				use_plain = int(input("Encipher the message using ciphertext? "
-				                      "yes[1] || no[0]"))
-				cipher = encrpy_decrypt_message(message, key, use_plain)
-				print(f"ciphertex: {plain}")
-				re_encrpy_decrypt(message, key, cipher)
-			elif t == 4:
-				key = [i for i in input("Key: ")]
-				use_plain = int(input("Encipher the message using plaintext? "
-				                      "yes[1] || no[0]"))
-				plain = encrpy_decrypt_message(message, key, use_plain)
-				print(f"plaintext: {plain}")
-				re_encrpy_decrypt(message, key, plain)
+				use_plain_cipher = int(input(f"Encipher the message using "
+				                             f"{detext[t - 3]}? yes[1] "
+				                             f"|| no[0]"))
+				plain_cipher = encrpy_decrypt_message(message, key,
+				                                      use_plain_cipher)
+				print(f"{detext[t - 3]}: {plain_cipher}")
+				re_encrpy_decrypt(message, key, plain_cipher)
 		except ValueError:
 			print("ValueError: exit the Vigenere")
 
@@ -160,17 +153,17 @@ def index_Coincidence(message, length, N, M, letter_position, type):
 	IC = round(fc / nc, 5)
 	print(f"= {IC}")
 	if type == 2:
-		keyword_Length(message, length, IC)
+		keyword_Length(length, IC)
 	else:
 		type = int(input("exit[0] || Keyword length[1]"))
 		if type == 0:
 			print("exit the Vigenere cipher")
 		elif type == 1:
-			keyword_Length(message, length, IC)
+			keyword_Length(length, IC)
 	return IC
 
 
-def keyword_Length(message, length, IC):
+def keyword_Length(length, IC):
 	r = (0.0273 * length) / ((length - 1) * IC - 0.0385 * length + 0.0658)
 	print(f"r = {round(r, 5)}")
 
