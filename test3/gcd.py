@@ -1,6 +1,20 @@
 import math
 from sympy import symbols
 
+q = "q: exit the question"
+t1 = "1: gcd"
+t2 = "2: order elements"
+t3 = "3: order unit"
+t4 = "4: Euler's theorem for mod"
+t5 = "5: find the iverse of x in Z(y)"
+t6 = "6: GF(X) == order unit - 1"
+t7 = "7: Given that x is a primitive element of Z(y), find all primitive " \
+     "elements"
+t8 = "8: How many primitive elements in the Z(x) "
+t9 = "9: find mod with symbols"
+
+ql = [t1, t2, t3, t4, t5, t6, t7, t8, t9, q]
+
 
 def modFunction(f1, f2, Z):
     a = symbols('a')
@@ -9,10 +23,6 @@ def modFunction(f1, f2, Z):
     print(f"{f2}")
     print(f'{f1}/{f2} == {f1/f2}')
     print(f'{f1}%{f2} == {f1%f2}')
-    # if math.gcd(f1, f2) == 1:
-    #     print(f'gcd({f1}, {f2}) == 1')
-    # else:
-    #     print(f'gcd({f1}, {f2}) == {math.gcd(f1, f2)}')
 
 
 def computeGCD(x, y):
@@ -84,19 +94,6 @@ def num_primitive_elem(N):
 
 
 def questionList():
-    q = "q: exit the question"
-    t1 = "1: gcd"
-    t2 = "2: order elements"
-    t3 = "3: order unit"
-    t4 = "4: Euler's theorem for mod"
-    t5 = "5: find the iverse of x in Z(y)"
-    t6 = "6: GF(X) == order unit - 1"
-    t7 = "7: Given that x is a primitive element of Z(y), find all primitive elements"
-    t8 = "8: How many primitive elements in the Z(x) "
-    t9 = "9: find mod with symbols"
-    
-    ql = [t1, t2, t3, t4, t5, t6, t7, t8, t9, q]
-    print("\n")
     print("*"*80)
     for i in ql:
         print(i)
@@ -148,16 +145,14 @@ def question(t):
                     print(f"Z({N}) = {num_primitive_elem(int(N))}")
             if t in functions:
                 print('f1 (mod f2) in Z(n) [the symbol use a, b]')
-                f1 = input("function 1 [a or b]:")
+                fun1 = input("function 1 [a or b]:")
                 f2 = input("function 2 [a or b]:")
                 z = int(input("Z(n) [integer]: "))
-                modFunction(f1, f2, z)
+                modFunction(fun1, f2, z)
+            input("Enter any bottom then go to next")
             questionList()
     except ValueError:
         print("exit the function")
-    
-
-
 
 
 if __name__ == "__main__":

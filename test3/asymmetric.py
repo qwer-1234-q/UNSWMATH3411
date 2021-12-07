@@ -2,12 +2,13 @@ import humman
 
 
 def cal():
+    s = "*" * 80
+    print(s)
     print("asymmetric channel")
-    print("plz retype if you type something wrong. "
-                "this function will not assume any errors")
+    print("plz retype if you type something wrong.")
+    print("this function will not assume any errors")
     print("Only for A is unknown or B is unknown, could not both of A and B "
           "are unknown")
-    s = "*" * 80
     print(s)
     print("plz enter one by one")
     N = int(input("number of input: "))
@@ -46,8 +47,8 @@ def addValue(N, s, k, t):
     for n in range(N):
         a = input(f"P({t}{n + 1}{k}) = ")
         if a is not None and a != "":
-            if a.find("/") != 0:
-                x, y = a.split("/")
+            x, y = a.split("/")
+            if x is not None and y is not None:
                 a = int(x) / int(y)
             l.append(round(float(a), 5))
         else:

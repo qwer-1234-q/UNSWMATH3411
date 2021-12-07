@@ -105,7 +105,7 @@ def code_Shannon(m, pre, N, r, logg):
                         a = []
                         a.append(m[r - 1][0] + 1)
                         change = False
-                        for i in range(1, N):
+                        for i in range(1, N - 1):
                             a.append(0)
                     else:
                         a = None

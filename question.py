@@ -3,10 +3,13 @@ from test3 import asymmetric, baseA, fermat, gcd, Markov, \
 	prime, ShannonFano, humman
 from Chapter67 import arithmeticMore, Vigenere, unicity
 
+
+ps = "Some functions possibly have some errors. You can fix yourself."
+remind = "Please enter the question number or q"
 end = "q: exit the question"
 q0 = "0: arithmetic [eg. ab*/s1s2stop/encode/decode]"
 q1 = "1: Shannon-Fano"
-q2 = "2: humman "
+q2 = "2: humman coding"
 q3 = "3: gcd/Euler theorem/Unit/GF"
 q4 = "4: fermat/square of a & b"
 q5 = "5: ISBN"
@@ -18,7 +21,7 @@ q10 = "10: LZ78 encode/decode message"
 q11 = "11: I-code with codeword lengths"
 q12 = "12: Vigenere [eg, index of coincidence, key/ciphertext/plaintext]"
 q13 = "13: unicity distance"
-questions = [q0, q1, q2, q3, q4, q5, q6, q7, q8, q9,
+questions = [remind, q0, q1, q2, q3, q4, q5, q6, q7, q8, q9,
              q10, q11, q12, q13, end]
 
 
@@ -41,6 +44,7 @@ def calQue(t):
 				question0_9(t)
 			elif 10 <= t <= 19:
 				question10_19(t)
+			input("Next after you push any bottom")
 			askQue()
 	except ValueError:
 		askQue()

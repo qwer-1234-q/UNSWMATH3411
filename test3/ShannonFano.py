@@ -4,22 +4,24 @@ import humman
 from itertools import combinations_with_replacement, combinations
 import fractions
 
-store = []
-infor = "Shannon-Fano code\nplz retype if you type something wrong. " \
-        "this function will not assume any errors"
+
+infor1 = "Shannon-Fano code"
+infor2 = "plz retype if you type something wrong."
+infor3 = "this function will not assume any errors"
 q1 = "1: encode/decode message/average length of the code"
 q2 = "2: the length of encode codeword "
 q3 = "3: average codeword length per symbol"
 q4 = "4: the probability of the S"
 q5 = "5: the length for extension S with lots of prob."
 end = "q: exit the Shannon-Fano"
-questions = [infor, q1, q2, q3, q4, q5, end]
+questions = [infor1, infor2, infor3, q1, q2, q3, q4, q5, end]
+
 
 def printQuestions():
 	print("*"*80)
 	for i in questions:
 		print(i)
-	
+
 
 def cal():
 	printQuestions()
@@ -48,23 +50,20 @@ def cal():
 
 def t1(N):
 	logg = int(input("type of coding (e.g. binary, ternary): "))
-	m = []
 	prob = []
+	store = []
 	for n in range(N):
 		a = float(input(f'p{n + 1} = '))
 		prob.append(a)
-		a = 1 / a
-		a = round(math.log(a, logg), 5)
-		store.append(math.ceil(a))
-		print(f"p{n + 1} length is {math.ceil(a)}")
-	if logg == 2:
-		m = encode.matrix(N, store)
-	elif logg > 2:
-		m = encode.matrix_Shannon(N, store, logg)
+		pi = 1 / a
+		li = round(math.log(pi, logg), 5)
+		store.append(math.ceil(li))
+		print(f"p{n + 1}: 1/p = {round(pi, 5)} || log_r(pi) = {li} || "
+		      f"length = {math.ceil(li)}")
+	m = encode.matrix_Shannon(N, store, logg)
 	if len(m) == N:
 		t = int(input("decode [0] || encode [1] "
-		              "|| average length [2] end ["
-		              "3]: "))
+		              "|| average length [2] || end [3]: "))
 		if t == 1:
 			message = [i for i in input("Put encode message: ").split("s")]
 			print(message)
@@ -176,6 +175,7 @@ def t4(N, t):
 	
 	L = list(combinations_with_replacement(range(len(order)), S))
 	print(f"not consider replete: {L}")
+	store = []
 	for i in L:
 		num = 1.0
 		for j in range(S):
