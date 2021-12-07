@@ -1,5 +1,7 @@
 import math
 from sympy import symbols
+import gcd
+import prime
 
 q = "q: exit the question"
 t1 = "1: gcd"
@@ -11,7 +13,7 @@ t6 = "6: GF(X) == order unit - 1"
 t7 = "7: Given that x is a primitive element of Z(y), find all primitive " \
      "elements"
 t8 = "8: How many primitive elements in the Z(x) "
-t9 = "9: find mod with symbols"
+t9 = "9: find mod with symbols [can't do, skip]"
 
 ql = [t1, t2, t3, t4, t5, t6, t7, t8, t9, q]
 
@@ -51,6 +53,19 @@ def order(N):
 
 def unit(N):
     ord = []
+    pri_list = prime.primeFactors(N)
+    if len(pri_list) > 0:
+        print(f"{N} prime is {pri_list}")
+        un = 1
+        print(f"{N} unit = ", end="")
+        for i in pri_list:
+            if un != 1:
+                print(f" x {i - 1}", end="")
+            else:
+                print(f"{i - 1}",end="")
+            un *= i - 1
+        print(f"= {un}")
+        return un
     for n in range(N):
         if computeGCD(n, N) == 1:
             ord.append(n)

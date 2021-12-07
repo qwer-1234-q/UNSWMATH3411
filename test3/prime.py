@@ -1,7 +1,7 @@
 
 
 def isPrime(n):
-    flag = False
+    flag = True
     if n > 1:
         for i in range(2, n):
             if n % i == 0:
