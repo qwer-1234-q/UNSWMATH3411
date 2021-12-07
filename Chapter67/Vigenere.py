@@ -1,3 +1,4 @@
+import fractions
 import math
 from itertools import permutations
 import enchant
@@ -207,12 +208,12 @@ def index_Coincidence(message, length, N, M, letter_position, type):
 		for n in range(N):
 			mc += letter_position[n][m]
 		if m + 1 == M:
-			print(f"{mc}^{N}", end="")
+			print(f"{mc}^2", end="")
 		else:
 			if num_output == 10:
 				print("")
 				num_output = 0
-			print(f"{mc}^{N}", end=" + ")
+			print(f"{mc}^2", end=" + ")
 		num_output += 1
 		fc += math.pow(mc, 2)
 	print(f") - {length}")
@@ -222,7 +223,7 @@ def index_Coincidence(message, length, N, M, letter_position, type):
 	fc -= length
 	nc = math.pow(length, 2) - length
 	IC = round(fc / nc, 5)
-	print(f"= {IC}")
+	print(f"= {IC} = {fractions.Fraction(IC).limit_denominator()}")
 	if type == 2:
 		keyword_Length(length, IC)
 	else:
@@ -231,13 +232,20 @@ def index_Coincidence(message, length, N, M, letter_position, type):
 			print("exit the Vigenere cipher")
 		elif type == 1:
 			keyword_Length(length, IC)
-	try_key_decipher(message, length)
+	choose = int(input("Enter a key to try [1] "
+	                   "|| computer to do [2] "
+	                   "|| end [3]: "))
+	if choose == 1:
+		try_key_decipher(message, length)
+	elif choose == 2:
+		try_find_key(message, length, r_length=int(
+			input("a keyword of length r = ")))
 	return IC
 
 
 def keyword_Length(length, IC):
 	r = (0.0273 * length) / ((length - 1) * IC - 0.0385 * length + 0.0658)
-	print(f"r = {round(r, 5)}")
+	print(f"r = {round(r, 5)} = {fractions.Fraction(r).limit_denominator()}")
 
 
 def manage_message(message):
@@ -260,7 +268,7 @@ def enter_Position(n, m):
 			pos = enter_Position(n, m)
 	return pos
 
-"PI FRB FHQ YHHG AKPV, AKLQ FRBU HQZZLU PV JRYULFA, BHB!"
+
 def try_find_key(message, length, r_length):
 	keys = list(permutations(
 				[chr(i) for i in range(ord("A"), ord("Z") + 1)], r_length))

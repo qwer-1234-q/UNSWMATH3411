@@ -1,5 +1,5 @@
 from test1 import ISBN, LZ78, codewordByLengths
-from test3 import asymmetric, baseA, fermat, gcd, Markov, \
+from test3 import asymmetric, pseudo_prime, fermat, gcd, Markov, \
 	prime, ShannonFano, humman
 from Chapter67 import arithmeticMore, Vigenere, unicity
 
@@ -14,7 +14,7 @@ q3 = "3: gcd/Euler theorem/Unit/GF"
 q4 = "4: fermat/square of a & b"
 q5 = "5: ISBN"
 q6 = "6: asymmetric (eg., binary channel with input and output)"
-q7 = "7: base for pseudo prime"
+q7 = "7: base for pseudo prime / pseudo_prime"
 q8 = "8: 2-symbol Markov source"
 q9 = "9: is prime or not"
 q10 = "10: LZ78 encode/decode message"
@@ -70,7 +70,7 @@ def question0_9(t):
 	elif t == 6:
 		asymmetric.cal()
 	elif t == 7:
-		baseA.cal()
+		pseudo_prime.cal()
 	elif t == 8:
 		Markov.cal()
 	elif t == 9:
