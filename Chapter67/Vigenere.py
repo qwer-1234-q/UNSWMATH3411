@@ -1,10 +1,13 @@
 import math
-
+from itertools import permutations
+import enchant
+from enchant.checker import SpellChecker
 
 end = "q: exit the Vigenere session"
 q0r = "If you want to enter the messages by txt (enter 0), you need to " \
       "replace the 'file' address in the readFile() function and add the " \
-      "information into vigenereScript.txt"
+      "information into vigenereScript.txt [not recommend & didn't fix the " \
+      "error]"
 q0 = "0: enter the information by script"
 q1 = "1: Calculate the index of coincidence Ic of the message"
 q2 = "2: Calculate the keyword length r (ignoring spaces and punctuation)"
@@ -12,7 +15,9 @@ qv = "Polyalphabetic substitution ciphers\n    key || plaintext || ciphertext"
 q3 = "3: Collect the ciphertext"
 q4 = "4: Collect the plaintext"
 q5 = "5: Use plaintext/ciphertext feedback to get the message and the key"
-questionList = [q0r, q0, q1, q2, qv, q3, q4, q5, end]
+q6 = "6: Decipher the message and try the keys"
+q7 = "7: Decipher the message and let the computer to find the key and message"
+questionList = [q0r, q0, q1, q2, qv, q3, q4, q5, q6, q7, end]
 detext = ["ciphertext", "plaintext"]
 o1 = f"[0]: using {detext[0]} feedback to find {detext[1]}"
 o2 = f"[1]: using {detext[1]} feedback to find {detext[0]}"
@@ -100,30 +105,38 @@ def cal():
 				plain_cipher = encrpy_decrypt_message(message, key,
 				                                      use_plain_cipher)
 				print(f"{detext[t - 3]}: {plain_cipher}")
-				re_encrpy_decrypt(message, key, plain_cipher)
+				# re_encrpy_decrypt(message, key, plain_cipher)
 			elif t == 5:
 				key = [i.upper() for i in input("Key: ")]
 				printOptions()
 				pla_cip = int(input())
 				solve_message(message, key, length, pla_cip)
+			elif t == 6:
+				try_key_decipher(message, length)
+			elif t == 7:
+				r_length = int(input("a keyword of length r = "))
+				try_find_key(message, length, r_length)
 		except ValueError:
 			print("ValueError: exit the Vigenere")
+		except ModuleNotFoundError:
+			print("ModuleNotFoundError: If you didn't down nltk, "
+			      "you can't do q7")
 
 
 def solve_message(message, key, length, pla_cip):
 	if pla_cip <= 1:
-		up_key, plain_cipher = unknown_pla_cip(message, key, 0, length,
+		up_key, plain_cipher = unknown_pla_cip(message, key, 0, len(message),
 		                                       "", pla_cip, 0)
 		print_message(up_key, message, plain_cipher, pla_cip)
 	else:
 		key0 = key.copy()
 		key1 = key.copy()
-		up_key, plain_cipher = unknown_pla_cip(message, key0, 0, length,
+		up_key, plain_cipher = unknown_pla_cip(message, key0, 0, len(message),
 		                                       "", 0, 0)
 		print(f"using {detext[0]} feedback to find {detext[1]}")
 		print_message(up_key, message, plain_cipher, 0)
 		print("-" * 80)
-		up_key, plain_cipher = unknown_pla_cip(message, key1, 0, length,
+		up_key, plain_cipher = unknown_pla_cip(message, key1, 0, len(message),
 		                                       "", 1, 0)
 		print(f"using {detext[1]} feedback to find {detext[0]}")
 		print_message(up_key, message, plain_cipher, 1)
@@ -173,9 +186,13 @@ def letter_group():
 
 def plaintext(M):
 	plain = []
-	for m in range(M):
-		p = input(f"{m + 1} code: ")
-		plain.append(p)
+	if M == 26:
+		if int(input("Does it A-Z 26 letters? Yes[1] || No[2]: ")) == 1:
+			plain = [chr(i) for i in range(ord("A"), ord("Z") + 1)]
+	if len(plain) != M:
+		for m in range(M):
+			p = input(f"{m + 1} code: ")
+			plain.append(p)
 	print(f"plaintext is {plain}")
 	print(f"total plaintext is {len(plain)}")
 	return plain
@@ -214,6 +231,7 @@ def index_Coincidence(message, length, N, M, letter_position, type):
 			print("exit the Vigenere cipher")
 		elif type == 1:
 			keyword_Length(length, IC)
+	try_key_decipher(message, length)
 	return IC
 
 
@@ -240,33 +258,97 @@ def enter_Position(n, m):
 			return None
 		else:
 			pos = enter_Position(n, m)
-	
 	return pos
 
+"PI FRB FHQ YHHG AKPV, AKLQ FRBU HQZZLU PV JRYULFA, BHB!"
+def try_find_key(message, length, r_length):
+	keys = list(permutations(
+				[chr(i) for i in range(ord("A"), ord("Z") + 1)], r_length))
+	# print(f"all keys:\n{keys}")
+	ciphers = {}
+	num_key = 0
+	min_key = -1
+	min_error = len(message)
+	for k in keys:
+		k = [i for i in k]
+		key = get_Key_Equal_message(k.copy(), length)
+		cip = unknown_pla_cip(message, key, 0, len(message), "", 1, 0)[1]
+		chkr = SpellChecker("en_US")
+		chkr.set_text(cip)
+		num_error = 0
+		for err in chkr:
+			num_error += 1
+		mes = {
+			"key": k,
+			"m": cip,
+			"err": num_error
+			}
+		if num_error <= min_error:
+			min_error = num_error
+			min_key = num_key
+		ciphers[num_key] = mes
+		num_key += 1
+	for kk in range(num_key):
+		cc = ciphers[kk]
+		key = cc["key"]
+		cip = cc["m"]
+		err = cc["err"]
+		print(f"{kk}:\n  key: {key}\n  decipher: {cip}\n  #error: {err}")
+	if min_key >= 0:
+		print("most suitable answer:")
+		mes = ciphers[min_key]
+		key = mes["key"]
+		cipher = mes["m"]
+		err = mes["err"]
+		print(f"   key: {key}\n   decipher: {cipher}\n   #error: {err}")
+	if len(ciphers) <= 0:
+		print("we can't find the key and the decipher the message")
 
-def re_encrpy_decrypt(message, key, plain_cipher):
-	plain_cipher = [i for i in plain_cipher]
-	try:
-		if int(input("change key[0] || keep [1]")) == 0:
-			key = [i for i in input("Key: ")]
-		use_plain = int(
-			input("Encipher the message using plaintext/ciphertext? "
-			      "yes[1] || no[0]"))
-		t = int(input(f"{detext[0]}[0] || {detext[1]}[1]"))
-		askQue = int(input(f"change [{detext[t]}] to decode/encode [0] "
-		                   f"|| use previous {detext} to decode/encode [1] "
-		                   f"|| use previous [message] [2]"))
-		decode_message = message
-		if askQue == 0:
-			decode_message = [i for i in input("Enter text: ")]
-		elif askQue == 1:
-			decode_message = plain_cipher
-		plain_cipher = encrpy_decrypt_message(decode_message, key, use_plain)
-		print(f"{detext[t]}: {plain_cipher}")
-		if int(input("continue [0] || exit [1]")) == 0:
-			re_encrpy_decrypt(decode_message, key, plain_cipher)
-	except Exception:
-		print("exit the vigenere function")
+
+def get_Key_Equal_message(key, length):
+	i = 0
+	while len(key) != length:
+		key.append(key[i])
+		i += 1
+	return key
+
+
+def try_key_decipher(message, length):
+	while int(input("Decipher the message [1] || end [2]: ")) == 1:
+		k = [i.upper() for i in input("Key: ")]
+		cipher = decipher_message_by_key(k, message, length)
+		print(f"message: \n   {cipher}")
+
+
+def decipher_message_by_key(key, message, length):
+	key = get_Key_Equal_message(key, length)
+	print(f"key: \n{key}")
+	return unknown_pla_cip(message, key, 0, len(message), "", 1, 0)[1]
+
+
+# def re_encrpy_decrypt(message, key, plain_cipher):
+# 	plain_cipher = [i for i in plain_cipher]
+# 	try:
+# 		if int(input("change key[0] || keep [1]")) == 0:
+# 			key = [i for i in input("Key: ")]
+# 		use_plain = int(
+# 			input("Encipher the message using plaintext/ciphertext? "
+# 			      "yes[1] || no[0]"))
+# 		t = int(input(f"{detext[0]}[0] || {detext[1]}[1]"))
+# 		askQue = int(input(f"change [{detext[t]}] to decode/encode [0] "
+# 		                   f"|| use previous {detext} to decode/encode [1] "
+# 		                   f"|| use previous [message] [2]"))
+# 		decode_message = message
+# 		if askQue == 0:
+# 			decode_message = [i for i in input("Enter text: ")]
+# 		elif askQue == 1:
+# 			decode_message = plain_cipher
+# 		plain_cipher = encrpy_decrypt_message(decode_message, key, use_plain)
+# 		print(f"{detext[t]}: {plain_cipher}")
+# 		if int(input("continue [0] || exit [1]")) == 0:
+# 			re_encrpy_decrypt(decode_message, key, plain_cipher)
+# 	except Exception:
+# 		print("exit the vigenere function")
 
 
 def key_rewrite(key, message):
@@ -305,7 +387,7 @@ def unknown_pla_cip(message, key, i, num, pla_cip_m, pla_cip, non_alpha_count):
 				offset = ord(key[(i - non_alpha_count) % len(key)]) - ord('A')
 				chart = chr((ord(letter) - ord('A') + offset) % 26 + ord('A'))
 			elif pla_cip == 1:
-				chart = chr((ord(letter) - ord(key[i])) % 26 + ord("A"))
+				chart = chr((ord(letter) - ord(key[i - non_alpha_count])) % 26 + ord("A"))
 			pla_cip_m += chart
 			if len(key) < num:
 				key.append(chart)

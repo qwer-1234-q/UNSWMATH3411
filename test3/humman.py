@@ -33,12 +33,14 @@ def hamInt(a, b, c):
     a = int(a)
     b = int(b)
     c = int(c)
+    print(f"-({a}/{b})* log {c}({a}/{b}) = {round(-a/b * math.log(a/b, c), 5)}")
     return round(-a/b * math.log(a/b, c), 5)
 
 
 def hamFra(a, b):
     a = round(a, 5)
     b = int(b)
+    print(f"-{a} * log {b}({a}) = {round(-a * math.log(a, b), 5)}")
     return round(-a * math.log(a, b), 5)
 
 

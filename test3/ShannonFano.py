@@ -9,13 +9,18 @@ import question
 infor1 = "Shannon-Fano code"
 infor2 = "plz retype if you type something wrong."
 infor3 = "this function will not assume any errors"
-q1 = "1: encode/decode message/average length of the code"
+sli = "*" * 50
+q1 = "1: encode/decode message/average length of the code \n     " \
+     "[eg., L[SF](S)"
 q2 = "2: the length of encode codeword "
-q3 = "3: average codeword length per symbol"
-q4 = "4: the probability of the S"
-q5 = "5: the length for extension S with lots of prob."
+q3 = "3: average codeword length per  \n     " \
+     "{lim[Lsf(S)]/(n)= Hr(S) = -a*log_r(a) ... ~= ?}"
+q4 = "4: the probability of the S \n     => don't contain length"
+q5 = "5: the length for extension S with lots of prob. \n     " \
+     "[order, x-extension(s^n)] \n     " \
+     "=> similar with 4 but including length"
 end = "q: exit the Shannon-Fano"
-questions = [infor1, infor2, infor3, q1, q2, q3, q4, q5, end]
+questions = [infor1, infor2, infor3, sli, q1, q2, q3, q4, q5, end]
 
 
 def printQuestions():
