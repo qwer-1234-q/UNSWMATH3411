@@ -1,5 +1,5 @@
 import humman
-
+import question
 
 def cal():
     s = "*" * 80
@@ -47,9 +47,7 @@ def addValue(N, s, k, t):
     for n in range(N):
         a = input(f"P({t}{n + 1}{k}) = ")
         if a is not None and a != "":
-            x, y = a.split("/")
-            if x is not None and y is not None:
-                a = int(x) / int(y)
+            a = question.float_fraction(a)
             l.append(round(float(a), 5))
         else:
             empty.append(n)
@@ -82,12 +80,11 @@ def createM(row, col):
 
 def fixValue(source, output, matrix, N, M):
     sE, oE, mE = checkAllValue(source, output, matrix)
-    if oE and mE == False:
+    if oE and mE is False:
         output = fixRow(output, matrix, source, N)
-    if sE and mE == False:
+    if sE and mE is False:
         source = fixRow(source, matrix, output, M)
 
-        
     sE, oE, mE = checkAllValue(source, output, matrix)
     if sE or oE or mE:
         return fixValue(source, output, matrix, N, M)

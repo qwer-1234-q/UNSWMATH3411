@@ -3,6 +3,7 @@ import encode
 import humman
 from itertools import combinations_with_replacement, combinations
 import fractions
+import question
 
 
 infor1 = "Shannon-Fano code"
@@ -102,11 +103,11 @@ def t1(N):
 			print(f'average length: {round(k, 5)}')
 
 
-def findM(code, M):
+def findM(code, matrix):
 	num = -1
 	pos = 1
 	print(code)
-	for m in M:
+	for m in matrix:
 		if len(m) == len(code):
 			print(m)
 			get = True
@@ -137,30 +138,11 @@ def t2(p, r):
 
 def t3(N):
 	c = int(input("r-radix: "))
-	fun = int(input("function[0] || float[1]: "))
 	k = 0.0
 	for n in range(N):
-		a = 0
-		b = 0
-		if fun == 0:
-			a, b = map(int, input(f"s[{n + 1}]: ").split("/"))
-			# k += humman.hamInt(a, b, c)
-		elif fun == 1:
-			a = float(input(f"s[{n + 1}]: "))
-			# k += humman.hamFra(a, c)
-		k += t3e(a, b, c, fun)
+		num = question.float_fraction(input(f"s[{n + 1}]: "))
+		k += humman.hamFra(num, c)
 	print(f"{k}")
-
-
-def t3e(a, b, c, fun):
-	k = 0.0
-	if fun == 0:
-		# a, b = map(int, input(f"s[{n + 1}]: ").split("/"))
-		k += humman.hamInt(a, b, c)
-	elif fun == 1:
-		# a = float(input(f"s[{n + 1}]: "))
-		k += humman.hamFra(a, c)
-	return k
 
 
 def t4(N, t):
@@ -169,8 +151,8 @@ def t4(N, t):
 	S = int(input("x-extenstion or S(x): "))
 	order = []
 	for n in range(N):
-		a, b = map(int, input(f"s[{n}]: ").split("/"))
-		order.append(a / b)
+		num = question.float_fraction(input(f"s[{n}]: "))
+		order.append(num)
 		order.sort()
 	
 	L = list(combinations_with_replacement(range(len(order)), S))

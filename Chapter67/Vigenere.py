@@ -1,5 +1,5 @@
 import math
-import string
+
 
 end = "q: exit the Vigenere session"
 q0r = "If you want to enter the messages by txt (enter 0), you need to " \

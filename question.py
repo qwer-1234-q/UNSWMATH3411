@@ -88,6 +88,15 @@ def question10_19(t):
 		unicity.cal()
 
 
+def float_fraction(num):
+	if num.find("/") >= 0:
+		x, y = num.split("/")
+		if x is not None and y is not None:
+			num = int(x) / int(y)
+	print(f"num is {num}")
+	return float(num)
+	
+
 if __name__ == "__main__":
 	print("Start to solve the questions!")
 	askQue()

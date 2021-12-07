@@ -21,6 +21,7 @@ def t1(N):
 
 def t2(N):
     store = 0.00
+    print("Don't enter /, only integer")
     for n in range(N):
         a, b = map(float, input("num, log(n): ").split(" "))
         store += hamFra(a, b)

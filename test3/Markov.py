@@ -4,12 +4,9 @@ store = []
 
 def cal():
     print("2-symbol Markov source")
-    print("plz retype if you type something wrong. "
-                "this function will not assume any errors")
-    s = ""
-    for i in range(80):
-        s += "*"
-    print(s)
+    print("plz retype if you type something wrong. ")
+    print("this function will not assume any errors")
+    print("*" * 80)
     print("plz enter one by one")
     print("transition matrix M:")
     m = []
