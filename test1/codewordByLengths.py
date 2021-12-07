@@ -5,6 +5,7 @@ def cal():
 	N = int(input("Number of codewords: "))
 	radix = int(input("radix: "))
 	codeword = []
+	print("Input the length and all length should be integer")
 	for n in range(N):
 		c = int(input(f"{n + 1}: "))
 		codeword.append(c)
