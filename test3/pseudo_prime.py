@@ -5,20 +5,25 @@ import prime
 def pseudo_prime(N, l):
     for a in l:
         print(f"\t{a}^{N -1} % {N} = {math.pow(a, N - 1) % N}")
-        if math.gcd(N, a) == 1 and math.pow(a, N - 1) % N == 1:
-            return a
+        if math.gcd(N, a) == 1:
+            if math.pow(a, N - 1) % N == 1:
+                return a
+            # for i in range(1, N):
+            #     if math.gcd(i, N) == 1 and math.pow(a, i) % N == 1:
+            #         print(f"\t{a}^{i} % {N} = {math.pow(a, i) % N}")
+            #         return a
+        
+    finding = True
+    n = 1
+    while finding and n <= N - 1:
+        for i in l:
+            if math.pow(i, n) % N == 1:
+                finding = False
+                print(f"\t{i}^{n} % {N} = {math.pow(i, N - 1) % N}")
+                return i
+            n += 1
     return None
-    # finding = True
-    # prime = 0
-    # n = 1
-    # while finding and n <= 1000:
-    #     for i in l:
-    #         if math.pow(i, n) % N == 1:
-    #             finding = False
-    #             prime = i
-    #             break
-    #     n += 1
-    # return prime
+    
 
 
 def strong_pseudo_prime(n, l):
@@ -65,6 +70,7 @@ def find_s_t(n):
                 break
     
     return s, t
+
 
 def cal():
     N = input("Enter pseudo-prime N: ")

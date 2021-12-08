@@ -12,6 +12,8 @@ def cal():
 
 def t1(N):
     store = 0.00
+    print("Don't enter / and logn()")
+    print("EG., 1/4log3(1/4) => 1 4 3")
     for n in range(N):
         a, b, c = map(int, input("a/b, log(n): ").split(" "))
         store += hamInt(a, b, c)
@@ -22,6 +24,8 @@ def t1(N):
 def t2(N):
     store = 0.00
     print("Don't enter /, only integer")
+    print("EG., 0.4log3(0.4) => 0.4 3")
+    
     for n in range(N):
         a, b = map(float, input("num, log(n): ").split(" "))
         store += hamFra(a, b)
@@ -52,7 +56,6 @@ def lengths(store):
         hamS(s, store)
     else:
         print("end")
-
 
 
 def hamS(s, store):

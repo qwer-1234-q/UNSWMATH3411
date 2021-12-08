@@ -59,7 +59,8 @@ def t1(N):
 	prob = []
 	store = []
 	for n in range(N):
-		a = float(input(f'p{n + 1} = '))
+		a = question.float_fraction(input(f'p{n + 1} = '))
+		# a = float()
 		prob.append(a)
 		pi = 1 / a
 		li = round(math.log(pi, logg), 5)
@@ -70,6 +71,7 @@ def t1(N):
 	if len(m) == N:
 		t = int(input("decode [0] || encode [1] "
 		              "|| average length [2] || end [3]: "))
+		
 		if t == 1:
 			message = [i for i in input("Put encode message: ").split("s")]
 			print(message)
