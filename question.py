@@ -1,7 +1,7 @@
 from test1 import ISBN, LZ78, codewordByLengths
 from test3 import asymmetric, pseudo_prime, fermat, gcd, Markov, \
 	prime, ShannonFano, humman
-from Chapter67 import arithmeticMore, Vigenere, unicity
+from Chapter67 import arithmeticMore, Vigenere, unicity, cyclotomic
 
 
 ps = "Some functions possibly have some errors. You can fix yourself."
@@ -21,8 +21,9 @@ q10 = "10: LZ78 encode/decode message"
 q11 = "11: I-code with codeword lengths"
 q12 = "12: Vigenere [eg, index of coincidence, key/ciphertext/plaintext]"
 q13 = "13: unicity distance"
+q14 = "14: GF with cyclotomic coset"
 questions = [remind, q0, q1, q2, q3, q4, q5, q6, q7, q8, q9,
-             q10, q11, q12, q13, end]
+             q10, q11, q12, q13, q14, end]
 
 
 def askQue():
@@ -86,6 +87,8 @@ def question10_19(t):
 		Vigenere.cal()
 	elif t == 13:
 		unicity.cal()
+	elif t == 14:
+		cyclotomic.cal()
 
 
 def float_fraction(num):
